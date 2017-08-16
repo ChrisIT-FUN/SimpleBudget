@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Simple Budget Tool</title>
+	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+	<script type="text/javascript">
+	  google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+
+        var data = google.visualization.arrayToDataTable([
+          ['Spending', 'Dollars Per Month'],
+          ['Housing',     housing],
+          ['Food',      food],
+          ['Entertainment',  entertainment],
+          ['Necessities', necessities],
+          ['Investments',    investments],
+		  ['Savings',    savings]
+        ]);
+
+        var options = {
+          title: 'Monthly Budget'
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+
+        chart.draw(data, options);
+		
+		}
+
+		var totalIncome, housing, food, entertainment, necessities, investments, savings, totalSpending
+
+		function setValues() {
+			totalIncome = parseFloat(document.getElementById("income").value);
+			housing = parseFloat(document.getElementById("housing").value);
+			food = parseFloat(document.getElementById("food").value);
+			entertainment = parseFloat(document.getElementById("entertainment").value);
+			necessities = parseFloat(document.getElementById("necessities").value);
+			investments = parseFloat(document.getElementById("investments").value);
+			totalSpending = housing + food + entertainment + necessities + investments;
+			savings = totalIncome - totalSpending;
+			//drawChart();
+			validateInput();
+		}
+		
+		function validateInput(){
+			if (!(isNaN(totalIncome && housing && food && entertainment && necessities && investments)) && (totalIncome != ""))
+			{
+			drawChart();
+			}else {
+			alert("Form filled out incorrectly");
+			}	
+		}
+      
+	</script>
+  </head>
+<body>
+
+<!--form accept-charset="UTF-8" action="action_page.php" autocomplete="off" method="GET" target="_blank">
+	<fieldset-->
+	<table>
+	<th> Simple Budget Analyzer: </th>
+	<tr>
+	<td><label for="income">Total Income: </label></td>
+	<td><input id="income" type="text" value="0.00" /> <br /> </td>
+	</tr>
+	<tr>
+	<td><label for="housing">Housing Spending: </label></td>
+	<td><input id="housing" type="text" value="0.00" /> <br /> </td>
+	</tr>
+	<tr>
+	<td><label for="food">Food Spending: </label></td>
+	<td><input id="food" type="text" value="0.00" /> <br /></td>
+	</tr>
+	<tr>
+	<td><label for="entertainment">Entertainment Spending: </label> </td>
+	<td><input id="entertainment" type="text" value="0.00" /> <br /></td>
+	</tr>
+	<tr>
+	<td><label for="necessities">Necessities Spending: </label> </td>	 
+	<td><input id="necessities" type="text" value="0.00" /> <br /></td>
+	</tr>
+	<tr>
+	<td><label for="investments">Investments Spending: </label> </td>
+	<td><input id="investments" type="text" value="0.00" /> <br /></td>	
+	</tr>
+	</table>
+	<!--button type="submit" value="Submit">Submit</button-->
+	<button onclick="setValues()">Submit</button>
+	<!--/fieldset>
+</form-->
+
+<div id="piechart" style="width: 900px; height: 500px;"></div>
+
+</body>
+</html>
