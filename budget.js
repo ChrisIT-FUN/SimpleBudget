@@ -1,9 +1,9 @@
 	  google.charts.load('current', {'packages':['corechart']});
       //google.charts.setOnLoadCallback(drawChart);
+	  window.onload = showDivs;
 	  
-	  // Hide piechart display to prevent overlapping with input prompts
-	  function hidePieChart(){
-		document.getElementById("piechart").style.display = "none";
+	  function showDivs(){
+		  document.getElementById("questionInput").style.display = "inline";
 	  }
 	  
 	  // Draw piechart
@@ -15,7 +15,7 @@
           ['Food',      food],
           ['Entertainment',  entertainment],
           ['Necessities', necessities],
-          ['Investments',    investments],
+          ['Investments and Debts',    investments],
 		  ['Savings',    savings]
         ]);
 
@@ -31,14 +31,14 @@
 		};
 		
 		// Declare storage variables for storing user input
-		var totalIncome, housing, food, entertainment, necessities, investments, savings, totalSpending;
+		var totalIncome, housing, food, entertainment, necessities, investments, savings, totalSpending, input;
 		// Declare questions and counter variable used to change question when input is submitted
 		var questionCount = 0;
 		var questions = ["How much do you spend on housing per month?", 
 						"How much do you spend on food per month?",
 						"How much do you spend on entertainment per month?", 
-						"How much do you spend on necessities per month?", 
-						"How much do you spend on investments per month?"];
+						"How much do you spend on necessities per month? (Transportation, insurance, hygiene, etc...)", 
+						"How much do you spend on investments and debts per month?"];
 						
 		var inputData = ["income", "housing", "food", "entertainment", "necessities", "investments"];
 		
@@ -54,30 +54,35 @@
 			savings = totalIncome - totalSpending;
 			drawChart();
 		};
-		
-		/*
-		function validateInput(var input){
+				
+		function validateInput(){
 			if (!(isNaN(input) && (input != "")))
 			{
 			return true;
 			}else {
+			alert("Form filled out incorrectly. Please enter a number.");
 			return false;
-			alert("Form filled out incorrectly");
+			
 			}	
 		};
-		*/
 		
 		function nextQuestion(){
 			if (questionCount < 5){
 				// Store entered input and change question text	
-				inputData[questionCount] = parseFloat(document.getElementById("inputTxt").value);
-				document.getElementById("question").innerHTML = questions[questionCount];
-				questionCount++;
+				input = parseFloat(document.getElementById("inputTxt").value);
+				if (validateInput()){					
+					inputData[questionCount] = parseFloat(document.getElementById("inputTxt").value);
+					document.getElementById("question").innerHTML = questions[questionCount];
+					questionCount++;
+				}	
 			}
 			else{
+				input = parseFloat(document.getElementById("inputTxt").value);
+				if (validateInput()){
 				inputData[questionCount] = parseFloat(document.getElementById("inputTxt").value);
 				document.getElementById("questionInput").style.display = "none";
 				document.getElementById("piechart").style.display = "";
-				setValues();
+				document.getElementById("recommended").style.display = "inline";
+				setValues();	
 			}
 		}
